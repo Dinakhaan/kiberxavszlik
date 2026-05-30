@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberSec UZ — Kiberxavfsizlik</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --c1:#0d0d1a;
+  --c2:#12122a;
+  --c3:#1a1a3e;
+  --accent:#6c63ff;
+  --accent2:#00d4aa;
+  --accent3:#ff6b6b;
+  --accent4:#ffd93d;
+  --text:#e8e8f5;
+  --muted:#7a7a9d;
+  --border:rgba(108,99,255,0.2);
+  --sans:'Outfit',sans-serif;
+  --mono:'Space Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--c1);color:var(--text);font-family:var(--sans);overflow-x:hidden}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--c2)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+
+/* CURSOR */
+*{cursor:default}
+a,button{cursor:pointer}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  background:rgba(13,13,26,0.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 4%;height:68px;
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:18px}
+.logo-text{font-size:18px;font-weight:800;color:#fff;letter-spacing:-0.5px}
+.logo-text span{color:var(--accent2)}
+.nav-links{display:flex;gap:4px}
+.nav-links a{
+  font-size:13px;font-weight:500;color:var(--muted);
+  text-decoration:none;padding:7px 16px;border-radius:8px;
+  transition:all .2s;
+}
+.nav-links a:hover{color:#fff;background:rgba(108,99,255,0.15)}
+.nav-btn{
+  background:linear-gradient(135deg,var(--accent),#9c8fff);
+  color:#fff;font-size:13px;font-weight:600;
+  padding:8px 20px;border-radius:8px;text-decoration:none;
+  box-shadow:0 4px 15px rgba(108,99,255,0.3);
+  transition:all .2s;
+}
+.nav-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(108,99,255,0.4)}
+
+/* HERO */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:100px 4% 80px;position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 80% at 70% 50%, rgba(108,99,255,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(0,212,170,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 30% 40% at 80% 10%, rgba(255,107,107,0.06) 0%, transparent 50%);
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(108,99,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108,99,255,0.05) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+.hero-inner{position:relative;max-width:1100px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-left{opacity:0;animation:slideIn .8s .2s forwards}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(108,99,255,0.15);border:1px solid rgba(108,99,255,0.3);
+  border-radius:50px;padding:6px 16px;margin-bottom:24px;
+  font-size:12px;font-weight:600;color:var(--accent);letter-spacing:1px;text-transform:uppercase;
+}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent2);animation:pulse 1.5s infinite}
+.hero h1{font-size:clamp(2.4rem,4.5vw,4rem);font-weight:900;line-height:1.1;margin-bottom:20px;letter-spacing:-1px}
+.hero h1 .g1{background:linear-gradient(135deg,#fff 0%,#c8c4ff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero h1 .g2{background:linear-gradient(135deg,var(--accent2),#00a884);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-desc{font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:32px;max-width:440px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),#9c8fff);
+  color:#fff;font-size:14px;font-weight:700;padding:13px 28px;
+  border-radius:10px;text-decoration:none;border:none;
+  box-shadow:0 8px 25px rgba(108,99,255,0.35);transition:all .25s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(108,99,255,0.45)}
+.btn-secondary{
+  background:transparent;color:#fff;font-size:14px;font-weight:600;
+  padding:13px 28px;border-radius:10px;text-decoration:none;
+  border:1px solid rgba(255,255,255,0.15);transition:all .25s;
+}
+.btn-secondary:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.3)}
+.hero-stats{display:flex;gap:32px;margin-top:40px}
+.stat-num{font-size:28px;font-weight:900;font-family:var(--mono);color:#fff}
+.stat-label{font-size:12px;color:var(--muted);margin-top:2px}
+.hero-right{opacity:0;animation:slideIn .8s .5s forwards}
+.hero-card{
+  background:linear-gradient(145deg,rgba(26,26,62,0.9),rgba(18,18,42,0.9));
+  border:1px solid var(--border);border-radius:20px;padding:28px;
+  backdrop-filter:blur(10px);
+  box-shadow:0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(108,99,255,0.1);
+}
+.hcard-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.hcard-title{font-size:13px;font-weight:600;color:var(--muted);font-family:var(--mono)}
+.hcard-dots{display:flex;gap:6px}
+.hcard-dots span{width:10px;height:10px;border-radius:50%}
+.terminal-line{font-family:var(--mono);font-size:12px;line-height:2.2;margin-bottom:4px}
+.tl-prompt{color:var(--accent)}
+.tl-cmd{color:#fff}
+.tl-out{color:var(--accent2)}
+.tl-warn{color:var(--accent4)}
+.tl-err{color:var(--accent3)}
+.tl-muted{color:var(--muted)}
+.scan-progress{margin-top:20px}
+.sp-label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}
+.sp-label span:first-child{color:var(--muted)}
+.sp-label span:last-child{color:var(--accent2);font-family:var(--mono)}
+.sp-bar{height:4px;border-radius:2px;background:rgba(255,255,255,0.08);overflow:hidden}
+.sp-fill{height:100%;border-radius:2px;animation:grow 2s ease forwards}
+.sp-fill.c1{background:linear-gradient(90deg,var(--accent),var(--accent2));width:0;animation-delay:.5s}
+.sp-fill.c2{background:linear-gradient(90deg,var(--accent2),#00a884);width:0;animation-delay:.8s}
+.sp-fill.c3{background:linear-gradient(90deg,var(--accent3),#ff9f43);width:0;animation-delay:1.1s}
+.sp-fill.c4{background:linear-gradient(90deg,var(--accent4),#ffb830);width:0;animation-delay:1.4s}
+@keyframes grow{to{width:var(--w)}}
+
+/* SECTIONS */
+.section{padding:80px 4%;max-width:1100px;margin:0 auto}
+.sec-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--accent2);margin-bottom:12px;
+}
+.sec-tag::before{content:'';width:24px;height:2px;border-radius:1px;background:var(--accent2)}
+.sec-title{font-size:clamp(1.8rem,3vw,2.6rem);font-weight:800;letter-spacing:-0.5px;margin-bottom:12px}
+.sec-sub{font-size:15px;color:var(--muted);line-height:1.7;max-width:520px;margin-bottom:48px}
+
+/* DIVIDER */
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 4%}
+
+/* ABOUT GRID */
+.about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.about-card{
+  background:linear-gradient(145deg,var(--c2),var(--c3));
+  border:1px solid var(--border);border-radius:16px;padding:24px;
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.about-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--grad);opacity:0;transition:.3s;
+}
+.about-card:hover::before{opacity:1}
+.about-card:hover{transform:translateY(-4px);border-color:rgba(108,99,255,0.4);box-shadow:0 12px 40px rgba(0,0,0,0.3)}
+.about-card.a1{--grad:linear-gradient(90deg,var(--accent),var(--accent2))}
+.about-card.a2{--grad:linear-gradient(90deg,var(--accent2),#00a884)}
+.about-card.a3{--grad:linear-gradient(90deg,var(--accent3),#ff9f43)}
+.about-icon{font-size:28px;margin-bottom:14px}
+.about-title{font-size:15px;font-weight:700;margin-bottom:8px}
+.about-text{font-size:13px;color:var(--muted);line-height:1.7}
+
+/* SCANNING TOOLS */
+.tools-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px}
+.tab-btn{
+  font-size:13px;font-weight:600;padding:8px 20px;border-radius:8px;
+  border:1px solid var(--border);background:transparent;color:var(--muted);
+  transition:all .2s;
+}
+.tab-btn.active,.tab-btn:hover{
+  background:linear-gradient(135deg,var(--accent),#9c8fff);
+  color:#fff;border-color:transparent;box-shadow:0 4px 15px rgba(108,99,255,0.3);
+}
+.tool-panel{display:none}
+.tool-panel.active{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.tool-info{background:var(--c2);border:1px solid var(--border);border-radius:16px;padding:28px}
+.tool-logo{
+  width:56px;height:56px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;margin-bottom:16px;
+}
+.tool-name{font-size:22px;font-weight:800;margin-bottom:6px}
+.tool-desc{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:20px}
+.tool-features{display:flex;flex-direction:column;gap:8px}
+.tf-item{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+.tf-item::before{content:'✦';color:var(--accent2);font-size:10px;flex-shrink:0}
+.tool-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.tbadge{
+  font-size:11px;font-weight:600;padding:4px 12px;border-radius:50px;
+  background:rgba(108,99,255,0.15);color:var(--accent);border:1px solid rgba(108,99,255,0.25);
+}
+.tbadge.green{background:rgba(0,212,170,0.12);color:var(--accent2);border-color:rgba(0,212,170,0.25)}
+.tbadge.red{background:rgba(255,107,107,0.12);color:var(--accent3);border-color:rgba(255,107,107,0.25)}
+.tbadge.yellow{background:rgba(255,217,61,0.12);color:var(--accent4);border-color:rgba(255,217,61,0.25)}
+.tool-terminal{background:#080812;border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.tt-bar{
+  background:var(--c3);padding:10px 16px;
+  display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid var(--border);
+}
+.tt-dots{display:flex;gap:6px}
+.tt-dots span{width:10px;height:10px;border-radius:50%}
+.tt-title{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:8px}
+.tt-body{padding:20px;font-family:var(--mono);font-size:12px;line-height:2}
+
+/* PHASES */
+.phases-wrap{display:flex;flex-direction:column;gap:0}
+.phase-item{
+  display:grid;grid-template-columns:80px 1fr;gap:24px;
+  padding:32px 0;border-bottom:1px solid rgba(108,99,255,0.1);
+  position:relative;
+}
+.phase-item:last-child{border-bottom:none}
+.phase-num-wrap{display:flex;flex-direction:column;align-items:center;gap:0}
+.phase-num{
+  width:56px;height:56px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:16px;font-weight:700;
+  color:#fff;flex-shrink:0;
+}
+.pn1{background:linear-gradient(135deg,var(--accent),#9c8fff)}
+.pn2{background:linear-gradient(135deg,var(--accent2),#00a884)}
+.pn3{background:linear-gradient(135deg,var(--accent3),#ff9f43)}
+.pn4{background:linear-gradient(135deg,var(--accent4),#ffb830)}
+.pn5{background:linear-gradient(135deg,#a29bfe,var(--accent))}
+.phase-connector{flex:1;width:2px;background:linear-gradient(to bottom,var(--border),transparent);margin-top:8px}
+.phase-body{}
+.phase-title{font-size:18px;font-weight:700;margin-bottom:8px}
+.phase-desc{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:12px}
+.phase-tags{display:flex;gap:6px;flex-wrap:wrap}
+.ptag{
+  font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;
+  background:rgba(108,99,255,0.1);color:var(--accent);border:1px solid rgba(108,99,255,0.2);
+  font-family:var(--mono);
+}
+
+/* VULNS */
+.vulns-grid{display:flex;flex-direction:column;gap:12px}
+.vuln-card{
+  display:grid;grid-template-columns:100px 1fr auto;align-items:center;gap:20px;
+  background:var(--c2);border:1px solid var(--border);border-radius:14px;
+  padding:18px 24px;transition:all .25s;
+}
+.vuln-card:hover{border-color:rgba(108,99,255,0.4);transform:translateX(4px)}
+.vuln-sev{
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  padding:6px 12px;border-radius:8px;text-align:center;
+}
+.sev-critical{background:rgba(255,107,107,0.15);color:#ff6b6b;border:1px solid rgba(255,107,107,0.3)}
+.sev-high{background:rgba(255,159,67,0.15);color:#ff9f43;border:1px solid rgba(255,159,67,0.3)}
+.sev-medium{background:rgba(255,217,61,0.15);color:#ffd93d;border:1px solid rgba(255,217,61,0.3)}
+.sev-low{background:rgba(0,212,170,0.12);color:#00d4aa;border:1px solid rgba(0,212,170,0.25)}
+.vuln-name{font-size:14px;font-weight:600;margin-bottom:4px}
+.vuln-desc{font-size:13px;color:var(--muted)}
+.vuln-cvss{font-family:var(--mono);font-size:18px;font-weight:700}
+.cvss-c{color:#ff6b6b}
+.cvss-h{color:#ff9f43}
+.cvss-m{color:#ffd93d}
+.cvss-l{color:#00d4aa}
+
+/* METRICS */
+.metrics-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:40px}
+.metric-card{
+  background:linear-gradient(145deg,var(--c2),var(--c3));
+  border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;
+  transition:all .3s;
+}
+.metric-card:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,0.3)}
+.metric-val{font-size:2.8rem;font-weight:900;font-family:var(--mono);margin-bottom:6px}
+.metric-lbl{font-size:12px;color:var(--muted);font-weight:500}
+.mv-purple{color:var(--accent)}
+.mv-red{color:var(--accent3)}
+.mv-yellow{color:var(--accent4)}
+.mv-green{color:var(--accent2)}
+
+/* RECS */
+.recs-grid{display:flex;flex-direction:column;gap:12px}
+.rec-card{
+  display:flex;gap:16px;align-items:flex-start;
+  background:var(--c2);border:1px solid rgba(0,212,170,0.15);
+  border-radius:14px;padding:20px 24px;transition:all .25s;
+}
+.rec-card:hover{border-color:rgba(0,212,170,0.35);background:rgba(0,212,170,0.04)}
+.rec-icon{
+  width:40px;height:40px;border-radius:10px;
+  background:rgba(0,212,170,0.12);border:1px solid rgba(0,212,170,0.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.rec-title{font-size:14px;font-weight:700;color:var(--accent2);margin-bottom:4px}
+.rec-desc{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* RISK */
+.risk-section{
+  background:linear-gradient(145deg,var(--c2),var(--c3));
+  border:1px solid var(--border);border-radius:20px;padding:32px;margin-top:32px;
+}
+.risk-title{font-size:16px;font-weight:700;margin-bottom:6px}
+.risk-sub{font-size:13px;color:var(--muted);margin-bottom:24px}
+.risk-track{
+  height:12px;border-radius:6px;position:relative;
+  background:linear-gradient(90deg,#00d4aa 0%,#ffd93d 40%,#ff9f43 70%,#ff6b6b 100%);
+  margin-bottom:8px;
+}
+.risk-needle{
+  position:absolute;top:-5px;width:22px;height:22px;border-radius:50%;
+  background:#ff6b6b;border:3px solid var(--c1);
+  box-shadow:0 0 0 3px rgba(255,107,107,0.3);left:72%;transform:translateX(-50%);
+}
+.risk-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.risk-score{
+  display:inline-block;font-family:var(--mono);font-size:32px;font-weight:700;
+  color:var(--accent3);margin-top:16px;
+}
+.risk-score-sub{font-size:13px;color:var(--muted);margin-left:8px}
+
+/* FOOTER */
+footer{
+  background:var(--c2);border-top:1px solid var(--border);
+  padding:40px 4%;text-align:center;
+}
+.footer-logo{font-size:22px;font-weight:900;color:#fff;margin-bottom:8px}
+.footer-logo span{color:var(--accent2)}
+.footer-text{font-size:13px;color:var(--muted);margin-bottom:20px}
+.footer-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.ftag{
+  font-size:11px;padding:4px 12px;border-radius:50px;
+  border:1px solid var(--border);color:var(--muted);
+}
+
+/* ANIMATIONS */
+@keyframes slideIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.float{animation:float 4s ease-in-out infinite}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-right{display:none}
+  .tool-panel.active{grid-template-columns:1fr}
+  .vuln-card{grid-template-columns:80px 1fr;gap:12px}
+  .vuln-cvss{display:none}
+  .nav-links{display:none}
+  .hero-stats{gap:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-icon">🛡️</div>
+    <div class="logo-text">Cyber<span>Sec</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="#about">Haqida</a>
+    <a href="#scanning">Scanning</a>
+    <a href="#phases">Bosqichlar</a>
+    <a href="#vulns">Zaifliklar</a>
+    <a href="#report">Hisobot</a>
+  </div>
+  <a href="#report" class="nav-btn">Hisobotni ko'rish →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-tag">Linux · Kiberxavfsizlik · 2024</div>
+      <h1>
+        <span class="g1">Tizimingizni</span><br>
+        <span class="g2">Himoya Qiling</span>
+      </h1>
+      <p class="hero-desc">Penetration testing, network scanning va zaiflik tahlili orqali tizimingizning xavfsizligini professional darajada tekshiring.</p>
+      <div class="hero-btns">
+        <a href="#scanning" class="btn-primary">Scanning vositalar</a>
+        <a href="#report" class="btn-secondary">Hisobotni ko'rish</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-num">6+</div><div class="stat-label">Scanning vosita</div></div>
+        <div><div class="stat-num">5</div><div class="stat-label">Pentest bosqichi</div></div>
+        <div><div class="stat-num">6</div><div class="stat-label">Zaiflik aniqlandi</div></div>
+      </div>
+    </div>
+    <div class="hero-right float">
+      <div class="hero-card">
+        <div class="hcard-header">
+          <div class="hcard-title">root@kali:~#</div>
+          <div class="hcard-dots">
+            <span style="background:#ff5f56"></span>
+            <span style="background:#ffbd2e"></span>
+            <span style="background:#27c93f"></span>
+          </div>
+        </div>
+        <div class="terminal-line"><span class="tl-prompt">$ </span><span class="tl-cmd">nmap -sV -sC 192.168.1.0/24</span></div>
+        <div class="terminal-line"><span class="tl-out">Host: 192.168.1.105 — up</span></div>
+        <div class="terminal-line"><span class="tl-warn">22/tcp  open  ssh    OpenSSH 7.6</span></div>
+        <div class="terminal-line"><span class="tl-warn">80/tcp  open  http   Apache 2.4.29</span></div>
+        <div class="terminal-line"><span class="tl-err">3306/tcp open mysql  MySQL 5.7</span></div>
+        <div class="terminal-line"><span class="tl-muted">OS: Linux Ubuntu 18.04</span></div>
+        <div class="scan-progress">
+          <div style="margin-bottom:12px">
+            <div class="sp-label"><span>Port Scan</span><span>100%</span></div>
+            <div class="sp-bar"><div class="sp-fill c1" style="--w:100%"></div></div>
+          </div>
+          <div style="margin-bottom:12px">
+            <div class="sp-label"><span>Service Detection</span><span>87%</span></div>
+            <div class="sp-bar"><div class="sp-fill c2" style="--w:87%"></div></div>
+          </div>
+          <div style="margin-bottom:12px">
+            <div class="sp-label"><span>Vuln Scan</span><span>73%</span></div>
+            <div class="sp-bar"><div class="sp-fill c3" style="--w:73%"></div></div>
+          </div>
+          <div>
+            <div class="sp-label"><span>Exploit Check</span><span>45%</span></div>
+            <div class="sp-bar"><div class="sp-fill c4" style="--w:45%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- HAQIDA -->
+<div class="section" id="about">
+  <div class="sec-tag">Haqida</div>
+  <h2 class="sec-title">Ethical Hacking nima?</h2>
+  <p class="sec-sub">Tizim egasining yozma ruxsati bilan zaifliklarni aniqlash va bartaraf etish jarayoni — zamonaviy kiberxavfsizlikning asosi.</p>
+  <div class="about-grid">
+    <div class="about-card a1">
+      <div class="about-icon">🎯</div>
+      <div class="about-title">Maqsad</div>
+      <div class="about-text">Zararli hakerlardan oldin zaifliklarni topib tuzatish. Tizim xavfsizligini real sharoitda sinash va mustahkamlash.</div>
+    </div>
+    <div class="about-card a2">
+      <div class="about-icon">📋</div>
+      <div class="about-title">Qonuniy asos</div>
+      <div class="about-text">Har qanday pentest yozma shartnoma va ruxsatnoma asosida bajariladi. O'zbekistonda ruxsatsiz kirish jinoyat hisoblanadi.</div>
+    </div>
+    <div class="about-card a3">
+      <div class="about-icon">🏆</div>
+      <div class="about-title">Natija</div>
+      <div class="about-text">Professional hisobot, zaifliklar ro'yxati, CVSS ballari va har bir muammo uchun aniq tuzatish tavsiyalari.</div>
+    </div>
+    <div class="about-card" style="--grad:linear-gradient(90deg,#a29bfe,var(--accent))">
+      <div class="about-icon">🐧</div>
+      <div class="about-title">Linux & Kali</div>
+      <div class="about-text">Pentest uchun Kali Linux distributivi ishlatiladi — 600+ tayyor vosita, zamonaviy kernel, maxsus konfiguratsiya.</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SCANNING TOOLS -->
+<div class="section" id="scanning">
+  <div class="sec-tag">Scanning vositalar</div>
+  <h2 class="sec-title">Asosiy vositalar</h2>
+  <p class="sec-sub">Professional penetration testing uchun ishlatiladigan eng kuchli scanning va exploitation vositalari.</p>
+
+  <div class="tools-tabs">
+    <button class="tab-btn active" onclick="showTool('nmap')">🔍 Nmap</button>
+    <button class="tab-btn" onclick="showTool('nikto')">🕷️ Nikto</button>
+    <button class="tab-btn" onclick="showTool('wireshark')">📡 Wireshark</button>
+    <button class="tab-btn" onclick="showTool('metasploit')">⚔️ Metasploit</button>
+    <button class="tab-btn" onclick="showTool('sqlmap')">💉 SQLMap</button>
+    <button class="tab-btn" onclick="showTool('burp')">🕸️ Burp Suite</button>
+  </div>
+
+  <!-- NMAP -->
+  <div class="tool-panel active" id="tool-nmap">
+    <div class="tool-info">
+      <div class="tool-logo" style="background:linear-gradient(135deg,rgba(108,99,255,0.2),rgba(0,212,170,0.2));border:1px solid var(--border)">🔍</div>
+      <div class="tool-name">Nmap</div>
+      <div class="tool-desc">Network Mapper — tarmoqdagi qurilmalar, ochiq portlar, xizmatlar va operatsion tizimlarni aniqlash uchun dunyoning eng mashhur skaneri.</div>
+      <div class="tool-features">
+        <div class="tf-item">TCP/UDP port skanerlash (-sT, -sU)</div>
+        <div class="tf-item">Xizmat versiyalarini aniqlash (-sV)</div>
+        <div class="tf-item">OS fingerprinting (-O)</div>
+        <div class="tf-item">NSE skriptlar bilan zaiflik tekshirish (-sC)</div>
+        <div class="tf-item">Stealth skan — IDS dan yashirinish (-sS)</div>
+      </div>
+      <div class="tool-badges">
+        <span class="tbadge">Network</span>
+        <span class="tbadge green">Port Scan</span>
+        <span class="tbadge">OS Detection</span>
+        <span class="tbadge green">Open Source</span>
+      </div>
+    </div>
+    <div class="tool-terminal">
+      <div class="tt-bar">
+        <div class="tt-dots"><span style="background:#ff5f56"></span><span style="background:#ffbd2e"></span><span style="background:#27c93f"></span></div>
+        <div class="tt-title">terminal — nmap scan</div>
+      </div>
+      <div class="tt-body">
+        <div class="terminal-line"><span class="tl-prompt">$ </span><span class="tl-cmd">nmap -sV -sC -O -p- 192.168.1.105</span></div>
+        <div class="terminal-line"><span class="tl-muted">Starting Nmap 7.94...</span></div>
+        <div class="terminal-line"><span class="tl-out">Host is up (0.0023s latency)</span></div>
+        <br>
+        <div class="terminal-line"><span class="tl-out">PORT &nbsp;&nbsp;&nbsp;&nbsp; STATE &nbsp; SERVICE &nbsp;&nbsp;&nbsp; VERSION</span></div>
+        <div class="terminal-line"><span class="tl-out">22/tcp &nbsp;&nbsp; open &nbsp;&nbsp; ssh &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OpenSSH 7.6p1</span></div>
+        <div class="terminal-line"><span class="tl-out">80/tcp &nbsp;&nbsp; open &nbsp;&nbsp; http &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Apache 2.4.29</span></div>
+        <div class="terminal-line"><span class="tl-warn">3306/tcp &nbsp; open &nbsp;&nbsp; mysql &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MySQL 5.7.31</span></div>
+        <div class="terminal-line"><span class="tl-warn">8080/tcp &nbsp; open &nbsp;&nbsp; http-proxy &nbsp; Squid 3.5</span></div>
+        <br>
+        <div class="terminal-line"><span class="tl-muted">OS: Linux 4.15 (Ubuntu 18.04)</span></div>
+        <div class="terminal-line"><span class="tl-out">Nmap done: 1 IP — 14.32 seconds</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NIKTO -->
+  <div class="tool-panel" id="tool-nikto">
+    <div class="tool-info">
+      <div class="tool-logo" style="background:linear-gradient(135deg,rgba(255,107,107,0.2),rgba(255,159,67,0.2));border:1px solid rgba(255,107,107,0.2)">🕷️</div>
+      <div class="tool-name">Nikto</div>
+      <div class="tool-desc">Veb-server zaifliklarini avtomatik aniqlash vositasi. 6000+ potensial muammoni skanerlaydi — noto'g'ri konfiguratsiyalardan tortib ma'lum CVE larga qadar.</div>
+      <div class="tool-features">
+        <div class="tf-item">Xavfli fayllar va kataloglarni topish</div>
+        <div class="tf-item">Server konfiguratsiya xatolarini aniqlash</div>
+        <div class="tf-item">Xavfsizlik headerlarini tekshirish</div>
+        <div class="tf-item">SSL/TLS zaifliklarini skanerlash</div>
+        <div class="tf-item">CGI zaifliklar tekshiruvi</div>
+      </div>
+      <div class="tool-badges">
+        <span class="tbadge red">Web Security</span>
+        <span class="tbadge">HTTP/HTTPS</span>
+        <span class="tbadge green">Open Source</span>
+        <span class="tbadge yellow">Perl</span>
+      </div>
+    </div>
+    <div class="tool-terminal">
+      <div class="tt-bar">
+        <div class="tt-dots"><span style="background:#ff5f56"></span><span style="background:#ffbd2e"></span><span style="background:#27c93f"></span></div>
+        <div class="tt-title">terminal — nikto scan</div>
+      </div>
+      <div class="tt-body">
+        <div class="terminal-line"><span class="tl-prompt">$ </span><span class="tl-cmd">nikto -h http://192.168.1.105 -C all</span></div>
+        <div class="terminal-line"><span class="tl-muted">- Nikto v2.1.6 —————————————</span></div>
+        <div class="terminal-line"><span class="tl-out">+ Server: Apache/2.4.29 (Ubuntu)</span></div>
+        <br>
+        <div class="terminal-line"><span class="tl-err">+ /admin/: Admin sahifasi topildi!</span></div>
+        <div class="terminal-line"><span class="tl-err">+ /phpinfo.php: PHP info oshkor!</span></div>
+        <div class="terminal-line"><span class="tl-err">+ SQL injection: /search.php?q=</span></div>
+        <div class="terminal-line"><span class="tl-warn">+ X-Frame-Options header yo'q</span></div>
+        <div class="terminal-line"><span class="tl-warn">+ Directory listing: /uploads/</span></div>
+        <br>
+        <div class="terminal-line"><span class="tl-out">6847 test — </span><span class="tl-err">6 muammo topildi</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WIRESHARK -->
+  <div class="tool-panel" id="tool-wireshark">
+    <div class="tool-info">
+      <div class="tool-logo" style="background:linear-gradient(135deg,rgba(0,212,170,0.2),rgba(79,195,247,0.2));border:1px solid rgba(0,212,170,0.2)">📡</div>
+      <div class="tool-name">Wireshark</div>
+      <div class="tool-desc">Tarmoq trafigini real vaqtda ushlash va tahlil qilish vositasi. Paketlar darajasida barcha tarmoq aloqalarini ko'rish imkonini beradi.</div>
+      <div class="tool-features">
+        <div class="tf-item">Real vaqtda paket ushlash (Live capture)</div>
+        <div class="tf-item">Deep Packet Inspection (DPI)</div>
+        <div class="tf-item">Protocol tahlil — 3000+ protokol</div>
+        <div class="tf-item">Credentials va parollarni aniqlash</div>
+        <div class="tf-item">PCAP fayllarni saqlash va o'rganish</div>
+      </div>
+      <div class="tool-badges">
+        <span class="tbadge green">Network Analysis</span>
+        <span class="tbadge">Packet Capture</span>
+        <span class="tbadge green">Open Source</span>
+        <span class="tbadge">PCAP</span>
+      </div>
+    </div>
+    <div class="tool-terminal">
+      <div class="tt-bar">
+        <div class="tt-dots"><span style="background:#ff5f56"></span><span style="background:#ffbd2e"></span><span style="background:#27c93f"></span></div>
+        <div class="tt-title">terminal — wireshark tshark</div>
+      </div>
+      <div class="tt-body">
+        <div class="terminal-line"><span class="tl-prompt">$ </span><span class="tl-cmd">tshark -i eth0 -f "tcp port 80"</span></div>
+        <div class="terminal-line"><span class="tl-muted">Capturing on 'eth0'...</span></div>
+        <br>
+        <div class="terminal-line"><span class="tl-out">Frame 142: 192.168.1.105 → 192.168.1.1</span></div>
+        <div class="terminal-line"><span class="tl-out">GET /login.php HTTP/1.1</span></div>
+        <div class="terminal-line"><span class="tl-out">Host: 192.168.1.105</span></div>
+        <br>
+        <div class="terminal-line"><span class="tl-warn">POST data (ochiq matn):</span></div>
+        <div class="terminal-line"><span class="tl-err">  username=admin&password=admin123</span></div>
+        <br>
+        <div class="terminal-line"><span class="tl-err">[!] Parol HTTP orqali uzatilmoqda!</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- METASPLOIT -->
+  <div class="tool-panel" id="tool-metasploit">
+    <div class="tool-info">
+      <div class="tool-logo" style="background:linear-gradient(135deg,rgba(255,107,107,0.2),rgba(108,99,255,0.2));border:1px solid rgba(255,107,107,0.2)">⚔️</div>
+      <div class="tool-name">Metasploit</div>
+      <div class="tool-desc">Dunyodagi eng kuchli penetration testing framework. 2000+ tayyor exploit, payload va post-exploitation modullari bilan to'liq pentest tsikli.</div>
+      <div class="tool-features">
+        <div class="tf-item">2000+ exploit moduli</div>
+        <div class="tf-item">Meterpreter — kuchli shell</div>
+        <div class="tf-item">Privilege escalation modullari</div>
+        <div class="tf-item">Pivoting va lateral movement</div>
+        <div class="tf-item">Auxiliary skanerlash modullari</div>
+      </div>
+      <div class="tool-badges">
+        <span class="tbadge red">Exploitation</span>
+        <span class="tbadge">Framework</span>
+        <span class="tbadge yellow">Ruby</span>
+        <span class="tbadge green">Open Source</span>
+      </div>
+    </div>
+    <div class="tool-terminal">
+      <div class="tt-bar">
+        <div class="tt-dots"><span style="background:#ff5f56"></span><span style="background:#ffbd2e"></span><span style="background:#27c93f"></span></div>
+        <div class="tt-title">terminal — metasploit framework</div>
+      </div>
+      <div class="tt-body">
+        <div class="terminal-line"><span class="tl-prompt">msf6 > </span><span class="tl-cmd">use exploit/unix/webapp/php_include</span></div>
+        <div class="terminal-line"><span class="tl-prompt">msf6 exploit > </span><span class="tl-cmd">set RHOSTS 192.168.1.105</span></div>
+        <div class="terminal-line"><span class="tl-prompt">msf6 exploit > </span><span class="tl-cmd">run</span></div>
+        <br>
+        <div class="terminal-line"><span class="tl-muted">[*] Started reverse TCP on :4444</span></div>
+        <div class="terminal-line"><span class="tl-muted">[*] Exploiting target...</span></div>
+        <div class="terminal-line"><span class="tl-out">[+] Shell opened! (192.168.1.105)</span></div>
+        <br>
+        <div class="terminal-line"><span class="tl-prompt">meterpreter > </span><span class="tl-cmd">getuid</span></div>
+        <div class="terminal-line"><span class="tl-warn">Server username: www-data</span></div>
+        <div class="terminal-line"><span class="tl-prompt">meterpreter > </span><span class="tl-cmd">sysinfo</span></div>
+        <div class="terminal-line"><span class="tl-out">OS: Linux Ubuntu 18.04</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SQLMAP -->
+  <div class="tool-panel" id="tool-sqlmap">
+    <div class="tool-info">
+      <div class="tool-logo" style="background:linear-gradient(135deg,rgba(255,217,61,0.2),rgba(255,159,67,0.2));border:1px solid rgba(255,217,61,0.2)">💉</div>
+      <div class="tool-name">SQLMap</div>
+      <div class="tool-desc">SQL injection zaifliklarini avtomatik topish va ekspluatatsiya qilish vositasi. Ma'lumotlar bazasidan to'liq ma'lumot olish imkonini beradi.</div>
+      <div class="tool-features">
+        <div class="tf-item">Boolean, Error, Time-based blind SQLi</div>
+        <div class="tf-item">Ma'lumotlar bazasini dump qilish</div>
+        <div class="tf-item">WAF bypass texnikalari</div>
+        <div class="tf-item">OS shell olish imkoniyati</div>
+        <div class="tf-item">Burp Suite bilan integratsiya</div>
+      </div>
+      <div class="tool-badges">
+        <span class="tbadge yellow">SQL Injection</span>
+        <span class="tbadge red">Web Attack</span>
+        <span class="tbadge">Python</span>
+        <span class="tbadge green">Open Source</span>
+      </div>
+    </div>
+    <div class="tool-terminal">
+      <div class="tt-bar">
+        <div class="tt-dots"><span style="background:#ff5f56"></span><span style="background:#ffbd2e"></span><span style="background:#27c93f"></span></div>
+        <div class="tt-title">terminal — sqlmap</div>
+      </div>
+      <div class="tt-body">
+        <div class="terminal-line"><span class="tl-prompt">$ </span><span class="tl-cmd">sqlmap -u "http://site.com/search.php?q=1" --dbs</span></div>
+        <div class="terminal-line"><span class="tl-muted">[*] Testing connection...</span></div>
+        <div class="terminal-line"><span class="tl-err">[CRITICAL] SQL injection found!</span></div>
+        <div class="terminal-line"><span class="tl-muted">Type: boolean-based blind</span></div>
+        <br>
+        <div class="terminal-line"><span class="tl-out">[+] Available databases:</span></div>
+        <div class="terminal-line"><span class="tl-warn">[*] information_schema</span></div>
+        <div class="terminal-line"><span class="tl-warn">[*] users_db</span></div>
+        <div class="terminal-line"><span class="tl-warn">[*] shop_database</span></div>
+        <br>
+        <div class="terminal-line"><span class="tl-out">3 ta baza topildi!</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BURP -->
+  <div class="tool-panel" id="tool-burp">
+    <div class="tool-info">
+      <div class="tool-logo" style="background:linear-gradient(135deg,rgba(162,155,254,0.2),rgba(108,99,255,0.2));border:1px solid rgba(162,155,254,0.2)">🕸️</div>
+      <div class="tool-name">Burp Suite</div>
+      <div class="tool-desc">Veb ilovalarni xavfsizlik testiga mo'ljallangan professional platforma. HTTP/HTTPS trafikni ushlash, o'zgartirish va tahlil qilish.</div>
+      <div class="tool-features">
+        <div class="tf-item">Intercept Proxy — trafik ushlash</div>
+        <div class="tf-item">Scanner — avtomatik zaiflik topish</div>
+        <div class="tf-item">Intruder — brute-force va fuzzing</div>
+        <div class="tf-item">Repeater — so'rovlarni qayta yuborish</div>
+        <div class="tf-item">XSS, CSRF, IDOR zaifliklarni topish</div>
+      </div>
+      <div class="tool-badges">
+        <span class="tbadge">Web Proxy</span>
+        <span class="tbadge red">Web Security</span>
+        <span class="tbadge yellow">Java</span>
+        <span class="tbadge">PortSwigger</span>
+      </div>
+    </div>
+    <div class="tool-terminal">
+      <div class="tt-bar">
+        <div class="tt-dots"><span style="background:#ff5f56"></span><span style="background:#ffbd2e"></span><span style="background:#27c93f"></span></div>
+        <div class="tt-title">terminal — burp suite intercepted</div>
+      </div>
+      <div class="tt-body">
+        <div class="terminal-line"><span class="tl-out">POST /login HTTP/1.1</span></div>
+        <div class="terminal-line"><span class="tl-out">Host: target.com</span></div>
+        <div class="terminal-line"><span class="tl-muted">Content-Type: application/x-www-form-urlencoded</span></div>
+        <br>
+        <div class="terminal-line"><span class="tl-warn">username=admin&password=test123</span></div>
+        <br>
+        <div class="terminal-line"><span class="tl-muted">— Intruder Attack ——————————</span></div>
+        <div class="terminal-line"><span class="tl-out">admin:admin123 → 302 Found ✓</span></div>
+        <div class="terminal-line"><span class="tl-err">admin:password → 401 Unauth ✗</span></div>
+        <div class="terminal-line"><span class="tl-out">[+] Credential topildi!</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- BOSQICHLAR -->
+<div class="section" id="phases">
+  <div class="sec-tag">Metodologiya</div>
+  <h2 class="sec-title">Pentest bosqichlari</h2>
+  <p class="sec-sub">Professional penetration testing 5 asosiy bosqichdan iborat — har biri o'ziga xos maqsad va vositalarga ega.</p>
+  <div class="phases-wrap">
+    <div class="phase-item">
+      <div class="phase-num-wrap"><div class="phase-num pn1">01</div><div class="phase-connector"></div></div>
+      <div class="phase-body">
+        <div class="phase-title">Reconnaissance — Ma'lumot yig'ish</div>
+        <div class="phase-desc">Maqsad tizim haqida ochiq manbalardan (OSINT) ma'lumot to'plash. DNS, Whois, LinkedIn, Google dorking orqali tashkilot va xodimlar haqida ma'lumot izlanadi. Passiv va aktiv razvedka usullari qo'llaniladi.</div>
+        <div class="phase-tags"><span class="ptag">OSINT</span><span class="ptag">Whois</span><span class="ptag">DNS Recon</span><span class="ptag">Google Dorking</span><span class="ptag">Maltego</span></div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-num-wrap"><div class="phase-num pn2">02</div><div class="phase-connector"></div></div>
+      <div class="phase-body">
+        <div class="phase-title">Scanning — Tizimni skanerlash</div>
+        <div class="phase-desc">Nmap, Nikto va boshqa vositalar yordamida ochiq portlar, ishlaydigan xizmatlar, OS versiyalari va zaifliklar aniqlanadi. Tarmoq topologiyasi xaritasi tuziladi.</div>
+        <div class="phase-tags"><span class="ptag">Nmap</span><span class="ptag">Nikto</span><span class="ptag">OpenVAS</span><span class="ptag">Masscan</span><span class="ptag">Netcat</span></div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-num-wrap"><div class="phase-num pn3">03</div><div class="phase-connector"></div></div>
+      <div class="phase-body">
+        <div class="phase-title">Exploitation — Zaifliklardan foydalanish</div>
+        <div class="phase-desc">Topilgan zaifliklardan Metasploit, SQLMap, Burp Suite yoki qo'lda yozilgan exploitlar yordamida tizimga kirish amalga oshiriladi. SQL injection, RCE, buffer overflow tekshiriladi.</div>
+        <div class="phase-tags"><span class="ptag">Metasploit</span><span class="ptag">SQLMap</span><span class="ptag">Burp Suite</span><span class="ptag">Manual Exploit</span></div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-num-wrap"><div class="phase-num pn4">04</div><div class="phase-connector"></div></div>
+      <div class="phase-body">
+        <div class="phase-title">Post-Exploitation — Keyingi harakatlar</div>
+        <div class="phase-desc">Tizimga kirgandan so'ng imtiyozlarni kengaytirish (privilege escalation), boshqa segmentlarga o'tish (pivoting), credential dumping va persistency o'rnatish tekshiriladi.</div>
+        <div class="phase-tags"><span class="ptag">Meterpreter</span><span class="ptag">Mimikatz</span><span class="ptag">BloodHound</span><span class="ptag">LinPEAS</span></div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-num-wrap"><div class="phase-num pn5">05</div></div>
+      <div class="phase-body">
+        <div class="phase-title">Reporting — Professional hisobot</div>
+        <div class="phase-desc">Barcha topilmalar, zaifliklar, CVSS ballari, tasdiqlovchi skrinshotlar va aniq tuzatish tavsiyalari professional hisobot shaklida mijozga taqdim etiladi.</div>
+        <div class="phase-tags"><span class="ptag">CVSS Score</span><span class="ptag">Hujjatlashtirish</span><span class="ptag">Tavsiyalar</span><span class="ptag">Risk Rating</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ZAIFLIKLAR -->
+<div class="section" id="vulns">
+  <div class="sec-tag">Topilmalar</div>
+  <h2 class="sec-title">Aniqlangan zaifliklar</h2>
+  <p class="sec-sub">Pentest davomida 192.168.1.105 serverida 6 ta zaiflik aniqlandi. Har biri CVSS v3.1 bo'yicha baholandi.</p>
+  <div class="vulns-grid">
+    <div class="vuln-card">
+      <div class="vuln-sev sev-critical">KRITIK</div>
+      <div class="vuln-info">
+        <div class="vuln-name">SQL Injection — /search.php</div>
+        <div class="vuln-desc">Foydalanuvchi kiritgan ma'lumotlar filtrsiz SQL so'roviga qo'shilmoqda. Ma'lumotlar bazasiga to'liq kirish va dump imkoni mavjud.</div>
+      </div>
+      <div class="vuln-cvss cvss-c">9.8</div>
+    </div>
+    <div class="vuln-card">
+      <div class="vuln-sev sev-critical">KRITIK</div>
+      <div class="vuln-info">
+        <div class="vuln-name">Ochiq MySQL porti (3306)</div>
+        <div class="vuln-desc">Ma'lumotlar bazasi tashqi tarmoqdan to'g'ridan-to'g'ri ko'rinadi. Brute-force va autentifikatsiyasiz kirish xavfi juda yuqori.</div>
+      </div>
+      <div class="vuln-cvss cvss-c">9.1</div>
+    </div>
+    <div class="vuln-card">
+      <div class="vuln-sev sev-high">YUQORI</div>
+      <div class="vuln-info">
+        <div class="vuln-name">HTTP orqali credentials uzatish</div>
+        <div class="vuln-desc">Login ma'lumotlari shifrlashsiz HTTP orqali uzatilmoqda. Man-in-the-Middle hujumi bilan osongina tutib olish mumkin.</div>
+      </div>
+      <div class="vuln-cvss cvss-h">7.5</div>
+    </div>
+    <div class="vuln-card">
+      <div class="vuln-sev sev-high">YUQORI</div>
+      <div class="vuln-info">
+        <div class="vuln-name">Eski OpenSSH 7.6p1 (CVE-2018-15473)</div>
+        <div class="vuln-desc">Username enumeration zaifilik mavjud. Mavjud foydalanuvchilarni sanab chiqish va brute-force hujumlarini osonlashtiradi.</div>
+      </div>
+      <div class="vuln-cvss cvss-h">7.2</div>
+    </div>
+    <div class="vuln-card">
+      <div class="vuln-sev sev-medium">O'RTA</div>
+      <div class="vuln-info">
+        <div class="vuln-name">Xavfsizlik headerlari yo'q</div>
+        <div class="vuln-desc">X-Frame-Options, X-XSS-Protection, Content-Security-Policy headerlari sozlanmagan. Clickjacking va XSS hujumlariga zaiflik.</div>
+      </div>
+      <div class="vuln-cvss cvss-m">5.3</div>
+    </div>
+    <div class="vuln-card">
+      <div class="vuln-sev sev-low">PAST</div>
+      <div class="vuln-info">
+        <div class="vuln-name">Directory listing yoqilgan</div>
+        <div class="vuln-desc">/uploads/ papkasi ichidagi barcha fayllar ro'yxatini ko'rish mumkin. Maxfiy fayllar va backup arxivlar oshkor bo'lishi xavfi bor.</div>
+      </div>
+      <div class="vuln-cvss cvss-l">3.7</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- HISOBOT -->
+<div class="section" id="report">
+  <div class="sec-tag">Yakuniy hisobot</div>
+  <h2 class="sec-title">Xulosa va tavsiyalar</h2>
+  <p class="sec-sub">Pentest natijalari va har bir zaiflik uchun aniq tuzatish yo'llari.</p>
+
+  <div class="metrics-row">
+    <div class="metric-card"><div class="metric-val mv-red">2</div><div class="metric-lbl">Kritik zaiflik</div></div>
+    <div class="metric-card"><div class="metric-val mv-purple">2</div><div class="metric-lbl">Yuqori darajali</div></div>
+    <div class="metric-card"><div class="metric-val mv-yellow">1</div><div class="metric-lbl">O'rta darajali</div></div>
+    <div class="metric-card"><div class="metric-val mv-green">1</div><div class="metric-lbl">Past darajali</div></div>
+  </div>
+
+  <div class="recs-grid">
+    <div class="rec-card">
+      <div class="rec-icon">🛡️</div>
+      <div><div class="rec-title">SQL Injectionni bartaraf eting</div><div class="rec-desc">Barcha ma'lumotlar bazasi so'rovlarida Prepared Statements va parametrlangan so'rovlardan foydalaning. PDO yoki ORM kutubxonalarini qo'llang. Kiruvchi ma'lumotlarni sanitize qiling.</div></div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-icon">🔒</div>
+      <div><div class="rec-title">MySQL portini yoping</div><div class="rec-desc">UFW yoki iptables yordamida 3306 portni faqat localhost (127.0.0.1) uchun oching. Tashqi tarmoqdan kirish imkonini to'liq bloklang.</div></div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-icon">🔐</div>
+      <div><div class="rec-title">HTTPS majburiy qiling</div><div class="rec-desc">Let's Encrypt bilan bepul SSL sertifikat oling. Apache .htaccess da barcha HTTP so'rovlarni HTTPS ga yo'naltiring. HSTS header qo'shing.</div></div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-icon">⬆️</div>
+      <div><div class="rec-title">OpenSSH ni yangilang</div><div class="rec-desc">apt update && apt upgrade openssh-server buyrug'i bilan yangilang. Parol autentifikatsiyasini o'chirib, faqat SSH key ishlatishga o'ting.</div></div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-icon">📋</div>
+      <div><div class="rec-title">Xavfsizlik headerlarini sozlang</div><div class="rec-desc">Apache konfiguratsiyasiga X-Frame-Options: DENY, X-XSS-Protection: 1; mode=block, Content-Security-Policy va Strict-Transport-Security headerlarini qo'shing.</div></div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-icon">📁</div>
+      <div><div class="rec-title">Directory listing o'chiring</div><div class="rec-desc">.htaccess fayliga Options -Indexes qo'shing. Barcha papkalarda index.html fayli bo'lishini ta'minlang. /uploads/ papkasiga to'g'ridan-to'g'ri kirishni cheklang.</div></div>
+    </div>
+  </div>
+
+  <div class="risk-section">
+    <div class="risk-title">Umumiy xavf darajasi — CVSS 3.1</div>
+    <div class="risk-sub">Eng yuqori CVSS bali asosida baholandi</div>
+    <div class="risk-track"><div class="risk-needle"></div></div>
+    <div class="risk-labels"><span>Past (0-3)</span><span>O'rta (4-6)</span><span>Yuqori (7-8)</span><span>Kritik (9-10)</span></div>
+    <div><span class="risk-score">9.8</span><span class="risk-score-sub">— Kritik daraja (SQL Injection)</span></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<footer>
+  <div class="footer-logo">Cyber<span>Sec</span> UZ</div>
+  <div class="footer-text">Ushbu loyiha faqat ta'lim va imtihon maqsadida tayyorlangan · 2024</div>
+  <div class="footer-tags">
+    <span class="ftag">Ethical Hacking</span>
+    <span class="ftag">Penetration Testing</span>
+    <span class="ftag">Network Security</span>
+    <span class="ftag">Linux</span>
+    <span class="ftag">Kali Linux</span>
+    <span class="ftag">Kiberxavfsizlik</span>
+  </div>
+</footer>
+
+<script>
+function showTool(name) {
+  document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tool-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
